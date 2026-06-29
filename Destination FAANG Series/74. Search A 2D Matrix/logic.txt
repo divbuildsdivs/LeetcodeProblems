@@ -1,0 +1,47 @@
+Search a 2D Matrix - Binary Search Logic
+
+You do not need to convert the matrix into a 1D array.
+Treat the matrix as if it were a sorted 1D array of size m * n.
+
+Let:
+- m = number of rows = matrix.length
+- n = number of columns = matrix[0].length
+- left = 0
+- right = m * n - 1
+
+At each step:
+1. Calculate mid:
+   mid = left + (right - left) / 2
+
+2. Convert that virtual 1D index back into a 2D position:
+   row = mid / n
+   col = mid % n
+
+3. Read the value:
+   value = matrix[row][col]
+
+4. Compare:
+- if value == target, return true
+- if value < target, search right half
+- if value > target, search left half
+
+Why this works:
+- Each row is sorted.
+- The first element of each row is greater than the last element of the previous row.
+- So the full matrix behaves exactly like one sorted 1D array.
+
+Key formulas:
+- row = mid / n
+- col = mid % n
+
+Example:
+If n = 4 and mid = 6:
+- row = 6 / 4 = 1
+- col = 6 % 4 = 2
+So the element is matrix[1][2].
+
+Time Complexity:
+- O(log(m * n))
+
+Space Complexity:
+- O(1)
