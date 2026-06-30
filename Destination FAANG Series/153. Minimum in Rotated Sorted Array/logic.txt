@@ -1,0 +1,33 @@
+LeetCode 153 - Find Minimum in Rotated Sorted Array
+
+Logic:
+
+1. Initialize:
+   - left = 0
+   - right = n - 1
+   - ans = nums[0]
+
+2. Perform Binary Search while left <= right.
+
+3. If nums[left] <= nums[right]:
+   - The current search space is already sorted.
+   - The minimum element in this range is nums[left].
+   - Update ans with nums[left].
+
+4. Calculate mid.
+
+5. Determine which half is sorted:
+   - If nums[mid] >= nums[left]:
+     - The left half is sorted.
+     - The minimum (if not already found) must be in the right half.
+     - Move left = mid + 1.
+   - Otherwise:
+     - The rotation point lies in the left half (including mid).
+     - Move right = mid.
+
+6. Continue until the search space is exhausted.
+
+7. Return ans.
+
+Time Complexity: O(log n)
+Space Complexity: O(1)
