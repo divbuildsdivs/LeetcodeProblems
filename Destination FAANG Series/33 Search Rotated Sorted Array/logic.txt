@@ -1,0 +1,45 @@
+```text
+LeetCode 33 - Search in Rotated Sorted Array
+--------------------------------------------
+
+Logic:
+1. Initialize two pointers:
+   - left = 0
+   - right = n - 1
+
+2. Perform Binary Search while left <= right:
+   - Calculate mid.
+   - If nums[mid] == target, return mid.
+
+3. Determine which half is sorted:
+   - If nums[left] <= nums[mid]:
+       -> Left half is sorted.
+       -> Check if target lies within this sorted range:
+          nums[left] <= target < nums[mid]
+          - Yes: Search left half (right = mid - 1)
+          - No : Search right half (left = mid + 1)
+
+   - Else:
+       -> Right half is sorted.
+       -> Check if target lies within this sorted range:
+          nums[mid] < target <= nums[right]
+          - Yes: Search right half (left = mid + 1)
+          - No : Search left half (right = mid - 1)
+
+4. If the loop ends without finding the target,
+   return -1.
+
+Key Observation:
+- In a rotated sorted array, at least one half (left or right)
+  is always sorted.
+- Identify the sorted half first, then determine whether the
+  target belongs to that half.
+- Eliminate the half where the target cannot exist, preserving
+  Binary Search's O(log n) complexity.
+
+Time Complexity:
+O(log n)
+
+Space Complexity:
+O(1)
+```
