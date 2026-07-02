@@ -1,0 +1,18 @@
+Sort List uses merge sort on a linked list.
+
+1. Find the middle of the list using slow and fast pointers.
+2. Split the list into two halves.
+3. Recursively sort both halves.
+4. Merge the two sorted linked lists into one sorted list.
+
+Merge logic for two sorted lists:
+- Create a dummy node to simplify pointer handling.
+- Compare the current nodes of both lists.
+- Attach the smaller node to the merged list and move that list forward.
+- When one list ends, attach the remaining nodes from the other list.
+
+Why this works:
+- Each recursive split reduces the problem size.
+- The merge step always combines two already sorted lists in linear time.
+- Overall time complexity is O(n log n).
+- Space complexity is O(log n) because of recursion stack.
