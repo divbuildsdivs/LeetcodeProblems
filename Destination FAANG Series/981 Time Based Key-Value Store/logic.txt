@@ -1,0 +1,56 @@
+LeetCode 981 - Time Based Key-Value Store
+
+Logic:
+
+We need to support two operations:
+1. set(key, value, timestamp)
+2. get(key, timestamp)
+
+The `get` operation should return the value stored at the largest timestamp
+less than or equal to the given timestamp.
+
+Data Structure Used:
+- HashMap<String, TreeMap<Integer, String>>
+
+Why this works:
+- HashMap gives direct access to the data for each key.
+- TreeMap keeps timestamps sorted for that key.
+- TreeMap.floorEntry(timestamp) gives the closest timestamp <= given timestamp.
+
+Step-by-step:
+
+1. Create a HashMap:
+   - Key   -> the string key
+   - Value -> a TreeMap of (timestamp -> value)
+
+2. For set(key, value, timestamp):
+   - If the key does not exist, create a new TreeMap.
+   - Insert (timestamp, value) into that TreeMap.
+
+3. For get(key, timestamp):
+   - If the key does not exist, return "".
+   - Otherwise, get the TreeMap for that key.
+   - Use floorEntry(timestamp):
+     - If an entry exists, return its value.
+     - If not, return "".
+
+Key Observation:
+- We do not need to scan all timestamps.
+- Since timestamps are sorted inside TreeMap, we can directly find the
+  nearest valid timestamp using floorEntry.
+
+Example:
+- set("foo", "bar", 1)
+- get("foo", 1)  -> "bar"
+- get("foo", 3)  -> "bar"
+- set("foo", "bar2", 4)
+- get("foo", 4)  -> "bar2"
+- get("foo", 5)  -> "bar2"
+
+Time Complexity:
+- set() -> O(log n)
+- get() -> O(log n)
+  where n is the number of timestamps stored for a specific key.
+
+Space Complexity:
+- O(total entries)
