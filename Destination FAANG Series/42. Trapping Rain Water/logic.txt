@@ -1,0 +1,43 @@
+LeetCode 42 - Trapping Rain Water
+---------------------------------
+
+Logic:
+1. Use two pointers:
+   - left starts at index 0
+   - right starts at index n - 1
+
+2. Track the highest wall seen so far from both sides:
+   - leftMax
+   - rightMax
+
+3. While left < right:
+   - If leftMax <= rightMax:
+     - Move left one step forward
+     - Update leftMax = max(leftMax, height[left])
+     - Water trapped at left = leftMax - height[left]
+
+   - Else:
+     - Move right one step backward
+     - Update rightMax = max(rightMax, height[right])
+     - Water trapped at right = rightMax - height[right]
+
+Why this works:
+- Water trapped at any index depends on the smaller of:
+  - maximum height on the left
+  - maximum height on the right
+- If leftMax <= rightMax, then the left side is the limiting boundary,
+  so the trapped water at the current left position can be computed safely.
+- Similarly, if rightMax < leftMax, then the right side is the limiting boundary.
+
+Example intuition:
+- A bar can hold water only if there is a taller boundary on both sides.
+- The amount stored is:
+  min(maxLeft, maxRight) - height[i]
+- The two-pointer approach avoids precomputing max arrays by updating
+  boundaries as the pointers move inward.
+
+Time Complexity:
+O(n)
+
+Space Complexity:
+O(1)
