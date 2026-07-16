@@ -1,0 +1,42 @@
+Text Justification - Greedy Logic
+
+Goal:
+- Pack as many words as possible into each line.
+- Fully justify every line except the last one.
+- Left-justify the last line.
+
+How the main loop works:
+1. Start a new line.
+2. Keep adding words while the line can still fit within maxWidth.
+3. Track:
+- lineLength = letters plus one extra slot per accepted word
+- actualCharCount = only the letters in the current line
+4. If the next word does not fit, justify the current line and start a new one.
+
+How full justification works:
+1. Compute totalSpaces:
+- totalSpaces = maxWidth - actualCharCount
+2. If the line has only one word:
+- put the word first
+- append all remaining spaces at the end
+3. Otherwise:
+- gaps = number of spaces between words
+- spacesInBetween = totalSpaces / gaps
+- extraSpacesInBetween = totalSpaces % gaps
+4. Add spaces evenly between every pair of words.
+5. If some spaces are left over, assign one extra space to the leftmost gaps first.
+
+How last-line justification works:
+1. Put exactly one space between words.
+2. Append all remaining spaces at the end.
+3. Do not distribute spaces evenly across the gaps.
+
+Why this is greedy:
+- Each line takes the maximum number of words that can fit.
+- Once a line is full, it is finalized immediately.
+
+Time Complexity:
+- O(n + total characters in output)
+
+Space Complexity:
+- O(1) extra space, ignoring the output list
