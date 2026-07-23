@@ -1,0 +1,31 @@
+LeetCode 138 - Copy List with Random Pointer
+
+Logic:
+
+1. Use a HashMap to store the mapping from each original node to its copied node:
+   - key = original node
+   - value = copied node
+
+2. Add a base mapping:
+   - null -> null
+   - This makes it easy to assign next and random pointers without extra null checks.
+
+3. First pass through the original list:
+   - Create a new node for each original node using its value.
+   - Store the mapping in the HashMap.
+   - Do not connect next or random yet.
+
+4. Second pass through the original list:
+   - Get the copied node from the map.
+   - Set copyNode.next = map.get(original.next)
+   - Set copyNode.random = map.get(original.random)
+
+5. Return map.get(head), which is the copied head node.
+
+Why this works:
+- Every original node gets exactly one copied node.
+- The HashMap lets us connect copied nodes using the original node relationships.
+- Since null is also mapped, both next and random assignments stay simple.
+
+Time Complexity: O(n)
+Space Complexity: O(n)
