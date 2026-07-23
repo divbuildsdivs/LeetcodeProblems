@@ -1,0 +1,32 @@
+LeetCode 287 - Find the Duplicate Number
+
+Logic:
+
+1. Treat the array like a linked list:
+   - Each index points to the next index using nums[index].
+   - Because one number is duplicated, two indices point to the same value.
+   - This creates a cycle.
+
+2. Initialize two pointers:
+   - slow = nums[0]
+   - fast = nums[nums[0]]
+
+3. Find the meeting point inside the cycle:
+   - Move slow by one step: slow = nums[slow]
+   - Move fast by two steps: fast = nums[nums[fast]]
+   - Continue until slow == fast.
+
+4. Find the entrance of the cycle:
+   - Reset slow = 0.
+   - Move both slow and fast one step at a time.
+   - The point where they meet again is the duplicate number.
+
+5. Return slow (or fast), since both now point to the duplicate value.
+
+Why this works:
+- The duplicate number causes a cycle in the index traversal.
+- Floyd's Tortoise and Hare algorithm detects the cycle and finds its entry point.
+- The cycle entry corresponds to the duplicate number.
+
+Time Complexity: O(n)
+Space Complexity: O(1)
