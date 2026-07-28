@@ -1,0 +1,189 @@
+I've prepared the logic in a format that you can save as `logic.txt`.
+
+```text
+LeetCode 853 - Car Fleet
+========================
+
+Core Idea
+---------
+A car fleet is formed when a faster car behind catches up to a slower car before
+reaching the target. Once they meet, they move together at the slower car's speed.
+
+Instead of simulating movement, calculate how long each car would take to reach
+the target.
+
+time = (target - position) / speed
+
+If a car behind takes less time than the fleet ahead, it will catch up and become
+part of that fleet.
+
+--------------------------------------------------------------------
+
+Step 1: Calculate each car's arrival time
+-----------------------------------------
+For every car store:
+
+(position, timeToReachTarget)
+
+Example:
+
+cars[i][0] = position
+cars[i][1] = (target - position) / speed
+
+--------------------------------------------------------------------
+
+Step 2: Sort cars by position
+-----------------------------
+Sort the cars in decreasing order of position.
+
+Reason:
+The car closest to the target must be processed first because cars behind can only
+merge into fleets ahead of them.
+
+Example:
+
+Position:
+10  8  5  3  0
+
+Process in exactly this order.
+
+--------------------------------------------------------------------
+
+Step 3: Traverse from front to back
+-----------------------------------
+Maintain:
+
+currentFleetTime = arrival time of the latest fleet
+
+Initially:
+
+currentFleetTime = 0
+
+fleetCount = 0
+
+--------------------------------------------------------------------
+
+Step 4: Decide whether a new fleet is formed
+--------------------------------------------
+For every car:
+
+Case 1:
+arrivalTime > currentFleetTime
+
+The car cannot catch the fleet in front.
+
+Therefore it starts a NEW fleet.
+
+Update:
+
+currentFleetTime = arrivalTime
+fleetCount++
+
+------------------------------------------------
+
+Case 2:
+arrivalTime <= currentFleetTime
+
+This car reaches the target earlier (or at the same time) than the fleet ahead.
+
+Since it starts behind, it must catch that fleet before the destination.
+
+Therefore:
+
+Do NOT increase fleetCount.
+
+The car becomes part of the existing fleet.
+
+--------------------------------------------------------------------
+
+Example
+-------
+
+Target = 12
+
+Position : [10, 8, 5, 3, 0]
+Speed    : [ 2, 4, 1, 3, 1]
+
+Arrival times:
+
+Position 10 -> 1
+Position 8  -> 1
+Position 5  -> 7
+Position 3  -> 3
+Position 0  -> 12
+
+Already sorted by position:
+
+(10,1)
+(8,1)
+(5,7)
+(3,3)
+(0,12)
+
+Process:
+
+Car (10,1)
+currentFleet = 1
+fleetCount = 1
+
+Car (8,1)
+1 <= 1
+Joins previous fleet
+
+fleetCount = 1
+
+Car (5,7)
+7 > 1
+New fleet
+
+currentFleet = 7
+fleetCount = 2
+
+Car (3,3)
+3 <= 7
+Joins fleet
+
+fleetCount = 2
+
+Car (0,12)
+12 > 7
+New fleet
+
+fleetCount = 3
+
+Answer = 3
+
+--------------------------------------------------------------------
+
+Why this works
+--------------
+The fleet in front determines the minimum arrival time for every car behind it.
+
+If a car behind would arrive earlier, it catches the fleet and adopts that fleet's
+arrival time.
+
+If it would arrive later, it can never catch the fleet, so it forms a new fleet.
+
+Therefore, every time we encounter a strictly larger arrival time while moving
+from front to back, a new fleet is created.
+
+--------------------------------------------------------------------
+
+Time Complexity
+---------------
+Creating array      : O(n)
+
+Sorting            : O(n log n)
+
+Single traversal   : O(n)
+
+Overall            : O(n log n)
+
+--------------------------------------------------------------------
+
+Space Complexity
+----------------
+Extra array storing (position, arrivalTime)
+
+Space = O(n)
+```
