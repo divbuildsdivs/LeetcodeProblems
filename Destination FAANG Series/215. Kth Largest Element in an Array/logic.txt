@@ -1,0 +1,39 @@
+LeetCode 215 - Kth Largest Element in an Array
+Approach: Min Heap (Priority Queue)
+
+Logic:
+
+1. Create a Min Heap of size k.
+   - The heap will always store the k largest elements seen so far.
+   - Since it is a Min Heap, the smallest among these k elements remains at the top.
+
+2. Insert the first k elements into the heap.
+   - After this step, the heap contains the first k numbers.
+
+3. Traverse the remaining elements in the array.
+   - If the current element is greater than the smallest element in the heap:
+     - Remove the smallest element from the heap.
+     - Insert the current element.
+   - Otherwise, ignore the current element because it cannot be part of the k largest elements.
+
+4. After processing the entire array:
+   - The heap still contains exactly k largest elements.
+   - The smallest element in the heap is the kth largest element overall.
+
+5. Return the top element of the Min Heap.
+
+Why this works:
+- The heap never stores more than k elements.
+- Any element smaller than the heap's minimum cannot affect the kth largest answer.
+- By continuously removing the smallest whenever a larger element is found, the heap always represents the current k largest elements.
+
+Time Complexity:
+- Building initial heap: O(k log k)
+- Processing remaining (n - k) elements:
+  - Each insertion/removal takes O(log k)
+  - Total: O((n - k) log k)
+
+Overall: O(n log k)
+
+Space Complexity:
+- O(k) for the Min Heap.
