@@ -58,9 +58,9 @@ class Twitter {
             return newsFeed;
         }
         Set<Integer> followedUsers = userMap.get(userId).followed;
-        PriorityQueue<Tweet> tweetHeap = new PriorityQueue((a,b)-> b.time - a.time);
+        PriorityQueue<Tweet> tweetHeap = new PriorityQueue<>((a,b)-> b.time - a.time);
         for(int followedUser: followedUsers ){
-            Tweet nextTweet = followedUser.tweethead;
+            Tweet nextTweet = userMap.get(followedUser).tweethead;
             while(nextTweet != null){
                 tweetHeap.add(nextTweet);
                 nextTweet = nextTweet.next;
@@ -68,7 +68,8 @@ class Twitter {
         }
         int tweetCount = 0;
         while(!tweetHeap.isEmpty() && tweetCount < 10){
-           newsFeed.add(tweetHeap.poll());
+           newsFeed.add(tweetHeap.poll().tweetId);
+           tweetCount++;
         }
         return newsFeed;
         
