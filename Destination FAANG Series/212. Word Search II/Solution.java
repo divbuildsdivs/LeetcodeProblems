@@ -1,70 +1,32 @@
-class TrieNode {
-    public HashMap<Character, TrieNode> children;
-    private boolean isEnd;
-    public TrieNode(){
-        children = new HashMap<>();;
-        isEnd = false;
-    }
-    public void setEnd() {
-        this.isEnd = true;
-    }
-    public boolean isEnd() {
-        return this.isEnd;
-    }
-    public void addWord(String word) {
-        TrieNode root = this;
-        for(int i =0 ; i< word.length(); i++){
-            if(!root.children.containsKey(word.charAt(i))) {
-                root.children.put(word.charAt(i),new TrieNode());
-            }
-            root = root.children.get(word.charAt(i));
-        }
-        root.setEnd();
-    }
-}
 class Solution {
-    char[][] fullboard;
-    Set<String> res = new HashSet<>();
-    int totalRows;
-    int totalColumns;
-
-    public List<String> findWords(char[][] board, String[] words) {
-        this.fullboard = board;
-        TrieNode root = new TrieNode();
-        for(int i = 0; i < words.length; i++) {
-            root.addWord(words[i]);
-        }
-        totalRows = board.length;
-        totalColumns = board[0].length;
-        for(int r = 0; r < totalRows; r++) {
-            for(int c =0; c < totalColumns; c++ ) {
-                dfs(r, c, "", root);
+    public boolean exist(char[][] board, String word) {
+        int wordlen = word.length(); 
+        for(int i=0; i<board.length; i++) {
+            for(int j=0; j<board[0].length ; j++) {
+                HashSet<String> set = new HashSet<>();
+                if(dfs(board, word, set, i, j, 0)) {
+                    return true;
+                }
             }
         }
-        List<String> reslist = List.copyOf(res);
-        return reslist;
-
+        return false;
     }
+    public boolean dfs(char[][] board, String word, HashSet<String> set, int r, int c, int index) {
+        int len = word.length();
+        if(len == index)
+            return true;
 
-    public void dfs(int r, int c, String wordFormed, TrieNode parent) {
-        if(r < 0 || r >= totalRows || c < 0 || c >= totalColumns || fullboard[r][c] == '#'||!parent.children.containsKey(fullboard[r][c])) {
-            return;
+       
+        if(r < 0 || r >= board.length || c < 0 || c >= board[0].length || board[r][c] != word.charAt(index) || set.contains(r + ", " + c) ) {
+            return false;
         }
-        char letter = fullboard[r][c];
-        fullboard[r][c] = '#';
-         String newWord = wordFormed + letter;
-        TrieNode current = parent.children.get(letter);
-        // Found a complete word
-        if (current.isEnd()) {
-            res.add(newWord);
-        }
-        
-        // Explore neighbours
-        dfs(r + 1, c, newWord, current);
-        dfs(r - 1, c, newWord, current);
-        dfs(r, c + 1, newWord, current);
-        dfs(r, c - 1, newWord, current);
-        
-        fullboard[r][c] = letter;
+        set.add(r + ", " + c);
+         
+
+        boolean res =  dfs(board, word, set, r, c+1, index + 1) ||  dfs(board, word, set, r, c-1, index + 1) ||  dfs(board, word, set, r+1, c, index + 1) ||  dfs(board, word, set, r-1, c, index + 1);
+
+        set.remove(r + ", " + c);
+        return res;
+
     }
 }
