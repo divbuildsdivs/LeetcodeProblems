@@ -1,0 +1,32 @@
+Network Delay Time - Dijkstra's Algorithm
+
+Goal
+Find the earliest time at which every node has received the signal sent from k.
+If any node cannot be reached, return -1.
+
+Approach
+1. Convert the directed edges into an adjacency list. Each entry stores a
+   neighboring node and the time needed to reach it.
+2. Put (0, k) into a min-heap because the signal starts at k with zero delay.
+3. Repeatedly pop the node with the smallest accumulated delay.
+4. If that node has already been visited, skip it. A node can appear in the
+   heap multiple times, but its first pop is always its shortest path because
+   all edge weights are positive.
+5. Finalize the node's delay and push each neighbor with:
+
+       new delay = current delay + edge time
+
+6. The last newly visited node has the greatest shortest-path delay because
+   the min-heap finalizes nodes in increasing delay order.
+7. Return that delay if all n nodes were visited; otherwise, return -1.
+
+Why the visited check matters
+Without skipping an already visited node, its neighbors would be inserted into
+the heap again. A cycle such as 1 -> 2 -> 1 could therefore keep generating new
+heap entries forever.
+
+Complexity
+Let V be the number of nodes and E be the number of edges.
+
+Time:  O((V + E) log V)
+Space: O(V + E)
