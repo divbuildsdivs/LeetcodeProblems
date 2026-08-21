@@ -1,0 +1,25 @@
+Word Ladder - Logic
+
+Use Breadth-First Search (BFS) because every valid one-letter transformation
+represents an unweighted edge. BFS explores transformation sequences in
+increasing order of length, so the first time endWord is reached, its level is
+the shortest possible sequence length.
+
+Steps:
+1. Convert wordList to a set for O(1) average lookup.
+2. Add beginWord to a queue with level 1.
+3. Remove the next word and its level from the queue.
+4. If the word equals endWord, return the current level.
+5. For each character position, replace it with every letter from 'a' to 'z'.
+6. If the generated word is in wordList and has not been visited, mark it as
+   visited and add it to the queue with level + 1.
+7. If the queue becomes empty without finding endWord, return 0.
+
+Marking words as visited when they are added to the queue prevents duplicate
+work and ensures each valid word is processed at most once.
+
+Complexity:
+Let N be the number of words and L be the length of each word.
+- Time: O(N * L * 26 * L), or O(N * L^2), because constructing each candidate
+  word takes O(L).
+- Space: O(N) for the word set, visited set, and BFS queue.
